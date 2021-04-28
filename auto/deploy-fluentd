@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+cd $(dirname $0)/..
+
+ENV=${1:-test}
+echo "Deploying fluentd with config for environment: ${ENV}..."
+
+kubectl apply -f fluentd/fluentd-conf-${ENV}.yaml
+kubectl apply -f fluentd/kubernetes-conf.yaml
+kubectl apply -f fluentd/fluentd-daemonset-elasticsearch-rbac.yaml
+kubectl patch daemonset fluentd -n efk -p '{"spec":{"template":{"metadata":{"annotations":{"timestamp": '\"$(date +'%s')\"' }}}}}'
+kubectl rollout status ds/fluentd -n efk

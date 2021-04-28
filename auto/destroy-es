@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+cd $(dirname $0)/..
+
+ENV=${1:-test}
+echo "Destroying Elasticsearch with config for environment: ${ENV}..."
+
+kubectl delete -f elasticsearch/es-configmap.yaml
+kubectl delete -f elasticsearch/es-service.yaml
+kubectl delete -f elasticsearch/es-statefulset.yaml

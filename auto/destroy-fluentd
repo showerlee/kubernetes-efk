@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+cd $(dirname $0)/..
+
+ENV=${1:-test}
+echo "Destroying fluentd with config for environment: ${ENV}..."
+
+kubectl delete -f fluentd/fluentd-conf-${ENV}.yaml
+kubectl delete -f fluentd/kubernetes-conf.yaml
+kubectl delete -f fluentd/fluentd-daemonset-elasticsearch-rbac.yaml

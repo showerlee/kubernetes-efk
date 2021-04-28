@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: efk
+data:
+  elasticsearch_host: "elasticsearch"
+  elasticsearch_port: "9200"
+  elasticsearch_schema: "http"

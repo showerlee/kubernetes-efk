@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+cd $(dirname $0)/..
+
+ENV=${1:-test}
+echo "Deploying Elasticsearch with config for environment: ${ENV}..."
+
+kubectl apply -f kibana/kibana-deployment.yaml
+# kubectl apply -f kibana/kibana-secret.yaml
+kubectl apply -f kibana/kibana-service.yaml
+kubectl patch deployment kibana -n efk -p '{"spec":{"template":{"metadata":{"annotations":{"timestamp": '\"$(date +'%s')\"' }}}}}'
+kubectl rollout status deployment/kibana -n efk

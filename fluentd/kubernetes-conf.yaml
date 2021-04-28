@@ -1,0 +1,296 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubernetes-config 
+  namespace: efk
+data:
+  kubernetes.conf: |-
+    # Source tail input for infrastructure
+    <source>
+      @id infrastructure.log
+      @type tail
+      path /var/log/containers/*fluentd*.log,/var/log/containers/*kube-node-lease*.log,/var/log/containers/*kube-system*.log
+      pos_file /var/log/infrastructure.pos
+      tag infrastructure.*
+      read_from_head true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+          time_key time
+          time_format %Y-%m-%dT%H:%M:%S.%NZ
+        </pattern>
+        <pattern>
+          format /^(?<time>.+) (?<stream>stdout|stderr) [^ ]* (?<log>.*)$/
+          time_format %Y-%m-%dT%H:%M:%S.%N%:z
+        </pattern>
+      </parse>
+    </source>
+    # Concatenate multi-line logs
+    <filter infrastructure.**>
+      @id filter_concat_infrastructure
+      @type concat
+      key message
+      multiline_end_regexp /\n$/
+      separator ""
+    </filter>
+    # Enriches records with Kubernetes metadata
+    <filter infrastructure.**>
+      @id filter_kubernetes_metadata_infrastructure
+      @type kubernetes_metadata
+    </filter>
+    # Fixes json fields in Elasticsearch
+    <filter infrastructure.**>
+      @id filter_parser_infrastructure
+      @type parser
+      key_name log
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+        </pattern>
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </filter>
+    Elasticsearch output for infrastructure
+    <match infrastructure.**>
+      @id infrastructure
+      @type elasticsearch
+      host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+      port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+      scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME']}"
+      ssl_verify true
+      ssl_version TLSv1
+      reconnect_on_error true
+      logstash_format true
+      logstash_prefix infrastructure
+      log_es_400_reason "#{ENV['FLUENT_ELASTICSEARCH_LOG_ES_400_REASON']}"
+      <buffer>
+        flush_thread_count 8
+        flush_interval 5s
+        chunk_limit_size 2M
+        queue_limit_length 32
+        retry_max_interval 30
+        retry_forever true
+      </buffer>
+    </match>
+    Source tail input for jenkins-example
+    <source>
+      @id jenkins-example.log
+      @type tail
+      path /var/log/containers/*jenkins-example*.log
+      pos_file /var/log/jenkins-example.log.pos
+      tag jenkins-example.*
+      read_from_head true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+          time_key time
+          time_format %Y-%m-%dT%H:%M:%S.%NZ
+        </pattern>
+        <pattern>
+          format /^(?<time>.+) (?<stream>stdout|stderr) [^ ]* (?<log>.*)$/
+          time_format %Y-%m-%dT%H:%M:%S.%N%:z
+        </pattern>
+      </parse>
+    </source>
+    # Concatenate multi-line logs
+    <filter jenkins-example.**>
+      @id filter_concat_jenkins_example
+      @type concat
+      key message
+      multiline_end_regexp /\n$/
+      separator ""
+    </filter>
+    # Enriches records with Kubernetes metadata
+    <filter jenkins-example.**>
+      @id filter_kubernetes_metadata_jenkins_example
+      @type kubernetes_metadata
+    </filter>
+    # Fixes json fields in Elasticsearch
+    <filter jenkins-example.**>
+      @id filter_parser_jenkins_example
+      @type parser
+      key_name log
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+        </pattern>
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </filter>
+    Elasticsearch output for jenkins-example
+    <match jenkins-example.**>
+      @id jenkins-example
+      @type elasticsearch
+      host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+      port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+      scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME']}"
+      ssl_verify true
+      ssl_version TLSv1
+      reconnect_on_error true
+      logstash_format true
+      logstash_prefix jenkins-example
+      <buffer>
+        flush_thread_count 8
+        flush_interval 5s
+        chunk_limit_size 2M
+        queue_limit_length 32
+        retry_max_interval 30
+        retry_forever true
+      </buffer>
+    </match>
+    Source tail input for gradle-demo-with-k8s
+    <source>
+      @id gradle-demo-with-k8s.log
+      @type tail
+      path /var/log/containers/*gradle-demo-with-k8s*.log
+      pos_file /var/log/gradle-demo-with-k8s.log.pos
+      tag gradle-demo-with-k8s.*
+      read_from_head true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+          time_key time
+          time_format %Y-%m-%dT%H:%M:%S.%NZ
+        </pattern>
+        <pattern>
+          format /^(?<time>.+) (?<stream>stdout|stderr) [^ ]* (?<log>.*)$/
+          time_format %Y-%m-%dT%H:%M:%S.%N%:z
+        </pattern>
+      </parse>
+    </source>
+    # Concatenate multi-line logs
+    <filter gradle-demo-with-k8s.**>
+      @id filter_concat_gradle_demo_with_k8s
+      @type concat
+      key message
+      multiline_end_regexp /\n$/
+      separator ""
+    </filter>
+    # Enriches records with Kubernetes metadata
+    <filter gradle-demo-with-k8s.**>
+      @id filter_kubernetes_metadata_gradle_demo_with_k8s
+      @type kubernetes_metadata
+    </filter>
+    # Fixes json fields in Elasticsearch
+    <filter gradle-demo-with-k8s.**>
+      @id filter_parser_gradle_demo_with_k8s
+      @type parser
+      key_name log
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+        </pattern>
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </filter>
+    Elasticsearch output for gradle-demo-with-k8s
+    <match gradle-demo-with-k8s.**>
+      @id gradle-demo-with-k8s
+      @type elasticsearch
+      host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+      port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+      scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME']}"
+      ssl_verify true
+      ssl_version TLSv1
+      reconnect_on_error true
+      logstash_format true
+      logstash_prefix gradle-demo-with-k8s
+      <buffer>
+        flush_thread_count 8
+        flush_interval 5s
+        chunk_limit_size 2M
+        queue_limit_length 32
+        retry_max_interval 30
+        retry_forever true
+      </buffer>
+    </match>
+    Source tail input for ingress-nginx
+    <source>
+      @id ingress-nginx.log
+      @type tail
+      path /var/log/containers/*ingress-nginx*.log
+      pos_file /var/log/ingress-nginx.log.pos
+      tag ingress-nginx.*
+      read_from_head true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+          time_key time
+          time_format %Y-%m-%dT%H:%M:%S.%NZ
+        </pattern>
+        <pattern>
+          format /^(?<time>.+) (?<stream>stdout|stderr) [^ ]* (?<log>.*)$/
+          time_format %Y-%m-%dT%H:%M:%S.%N%:z
+        </pattern>
+      </parse>
+    </source>
+    # Concatenate multi-line logs
+    <filter ingress-nginx.**>
+      @id filter_concat_ingress_nginx
+      @type concat
+      key message
+      multiline_end_regexp /\n$/
+      separator ""
+    </filter>
+    # Enriches records with Kubernetes metadata
+    <filter ingress-nginx.**>
+      @id filter_kubernetes_metadata_ingress_nginx
+      @type kubernetes_metadata
+    </filter>
+    # Fixes json fields in Elasticsearch
+    <filter ingress-nginx.**>
+      @id filter_parser_ingress_nginx
+      @type parser
+      key_name log
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+        </pattern>
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </filter>
+    Elasticsearch output for ingress-nginx
+    <match ingress-nginx.**>
+      @id ingress-nginx
+      @type elasticsearch
+      host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+      port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+      scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME']}"
+      ssl_verify true
+      ssl_version TLSv1
+      reconnect_on_error true
+      logstash_format true
+      logstash_prefix ingress-nginx
+      <buffer>
+        flush_thread_count 8
+        flush_interval 5s
+        chunk_limit_size 2M
+        queue_limit_length 32
+        retry_max_interval 30
+        retry_forever true
+      </buffer>
+    </match>
