@@ -9,7 +9,7 @@ data:
     <source>
       @id infrastructure.log
       @type tail
-      path /var/log/containers/*fluentd*.log,/var/log/containers/*kube-node-lease*.log,/var/log/containers/*kube-system*.log
+      path /var/log/containers/*efk*.log,/var/log/containers/*kube-node-lease*.log,/var/log/containers/*kube-system*.log
       pos_file /var/log/infrastructure.pos
       tag infrastructure.*
       read_from_head true
