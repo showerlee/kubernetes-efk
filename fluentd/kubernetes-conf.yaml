@@ -63,6 +63,8 @@ data:
       host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
       port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME']}"
+      user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
+      password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
       ssl_verify true
       ssl_version TLSv1
       reconnect_on_error true
@@ -136,6 +138,8 @@ data:
       host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
       port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME']}"
+      user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
+      password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
       ssl_verify true
       ssl_version TLSv1
       reconnect_on_error true
@@ -208,6 +212,8 @@ data:
       host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
       port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME']}"
+      user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
+      password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
       ssl_verify true
       ssl_version TLSv1
       reconnect_on_error true
@@ -280,6 +286,8 @@ data:
       host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
       port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME']}"
+      user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
+      password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
       ssl_verify true
       ssl_version TLSv1
       reconnect_on_error true

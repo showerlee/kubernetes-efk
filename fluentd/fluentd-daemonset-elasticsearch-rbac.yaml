@@ -84,6 +84,16 @@ spec:
               configMapKeyRef:
                 name: fluentd-config
                 key:  elasticsearch_schema
+          - name: FLUENT_ELASTICSEARCH_USER
+            valueFrom:
+              secretKeyRef:
+                name: es-secret
+                key: user
+          - name: FLUENT_ELASTICSEARCH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: es-secret
+                key: password
           - name: FLUENT_UID
             value: "0"
           - name: FLUENT_ELASTICSEARCH_LOG_ES_400_REASON

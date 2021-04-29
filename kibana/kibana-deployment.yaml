@@ -30,8 +30,18 @@ spec:
         env:
         - name: ELASTICSEARCH_URL
           value: http://elasticsearch:9200
-        #envFrom:
-        #- secretRef:
+        - name: ELASTICSEARCH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: kibana-secret
+              key: user
+        - name: ELASTICSEARCH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kibana-secret
+              key: password
+        # envFrom:
+        # - secretRef:
         #    name: kibana-creds
         ports:
         - containerPort: 5601

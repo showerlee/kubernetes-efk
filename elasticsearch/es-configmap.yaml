@@ -8,10 +8,14 @@ data:
     cluster.name: elastic-cluster
     network.host: "0.0.0.0"
     bootstrap.memory_lock: false
-    # discovery.seed_hosts: "es-cluster-0.elasticsearch,es-cluster-1.elasticsearch,es-cluster-2.elasticsearch"
-    # cluster.initial_master_nodes: "es-cluster-0,es-cluster-1,es-cluster-2"
-    discovery.seed_hosts: "es-cluster-0.elasticsearch,es-cluster-1.elasticsearch"
-    cluster.initial_master_nodes: "es-cluster-0,es-cluster-1"
-    #xpack.license.self_generated.type: basic
-    #xpack.monitoring.enabled: true
-    #xpack.security.enabled: true
+    # Enable auth in single node
+    xpack.security.enabled: true
+    discovery.type: single-node
+    # Enable auth in multiple node
+    # discovery.seed_hosts: "es-cluster-0.elasticsearch,es-cluster-1.elasticsearch"
+    # cluster.initial_master_nodes: "es-cluster-0,es-cluster-1"
+    # xpack.license.self_generated.type: basic
+    # xpack.security.transport.ssl.enabled: true
+    # xpack.security.transport.ssl.verification_mode: certificate
+    # xpack.security.transport.ssl.keystore.path: elastic-certificates.p12
+    # xpack.security.transport.ssl.truststore.path: elastic-certificates.p12

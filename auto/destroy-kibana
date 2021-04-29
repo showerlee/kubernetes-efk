@@ -6,5 +6,5 @@ ENV=${1:-test}
 echo "Destroying Elasticsearch with config for environment: ${ENV}..."
 
 kubectl delete -f kibana/kibana-deployment.yaml
-kubectl delete -f kibana/kibana-secret.yaml
 kubectl delete -f kibana/kibana-service.yaml
+# kubectl delete -f kibana/kibana-secret.yaml
