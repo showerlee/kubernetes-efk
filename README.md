@@ -11,9 +11,9 @@ In the current state:
 
 - Fluentd is deployed as a DaemonSet, and will send corresponding logs defined in `kubernetes-conf.yaml` to ElasticSearch.
 
-- Elasticsearch is deployed as 2 StatefulSet and bind with PVC of AWS EBS.
+- Elasticsearch is deployed as a StatefulSet binding with PVC of AWS EBS.
 
-- Kibana acts a stateless service that consumes data from ElasticSearch.
+- Kibana is deploy as a Deployment acts a stateless service that consumes data from ElasticSearch.
 
 ## Installation
 
@@ -26,7 +26,9 @@ In the current state:
   Once finished es deployment, run the following CMD to initialize es user credentials for any services that need talk to es
 
   ```
-  $ kubectl exec -it $(kubectl get pods -n efk | grep es-cluster | sed -n 1p | awk '{print $1}') -n efk -- bin/elasticsearch-setup-passwords auto
+  kubectl exec -it -n efk \
+  $(kubectl get pods -n efk | grep es-cluster | sed -n 1p | awk '{print $1}') \
+  -- bin/elasticsearch-setup-passwords auto
   Changed password for user apm_system
   PASSWORD apm_system = xxxxxxxxxxxxxxxxx
 
