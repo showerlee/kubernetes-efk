@@ -19,6 +19,12 @@ In the current state:
 
 - Setup `KUBECONFIG` in local so as to enable the auth to k8s cluster
 
+- Setup efk namespace
+
+  ```
+   kubectl create namespace efk
+  ```
+
 - Run `auto/deploy-es` to deploy elasticsearch
 
 - Initialize es credentials
@@ -72,7 +78,7 @@ In the current state:
 - Forward kibana service to local
 
   ```
-  kubectl port-forward -n eks svc/kibana 5601:5601
+  kubectl port-forward -n efk svc/kibana 5601:5601
   ```
 
 - Access the Kibana dashboard via elastic/xxxxxxxxxxxxxxx
