@@ -98,6 +98,8 @@ spec:
             value: "0"
           - name: FLUENT_ELASTICSEARCH_LOG_ES_400_REASON
             value: "true"
+          - name: FLUENTD_SYSTEMD_CONF
+            value: "disable"
         resources:
           limits:
             memory: 512Mi
