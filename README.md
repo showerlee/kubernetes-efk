@@ -25,6 +25,12 @@ In the current state:
    kubectl create namespace efk
   ```
 
+- Setup node label
+
+  ```
+   kubectl label nodes k8s-node-1 node.logging=efk
+  ```
+
 - Run `auto/deploy-es` to deploy elasticsearch
 
 - Initialize es credentials

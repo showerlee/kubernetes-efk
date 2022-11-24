@@ -19,9 +19,18 @@ spec:
       annotations:
         seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node.logging
+                    operator: In
+                    values:
+                      - efk
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana:7.12.1
+        image: docker.elastic.co/kibana/kibana:8.5.2
         resources:
           limits:
             cpu: 1000m

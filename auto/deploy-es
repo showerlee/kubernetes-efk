@@ -7,6 +7,6 @@ echo "Deploying Elasticsearch with config for environment: ${ENV}..."
 
 kubectl apply -f elasticsearch/es-configmap.yaml
 kubectl apply -f elasticsearch/es-service.yaml
-kubectl apply -f elasticsearch/es-statefulset.yaml
-kubectl patch statefulset es-cluster -n efk -p '{"spec":{"template":{"metadata":{"annotations":{"timestamp": '\"$(date +'%s')\"' }}}}}'
-kubectl rollout status statefulset/es-cluster -n efk
+kubectl apply -f elasticsearch/es-deployment.yaml
+kubectl patch deployment es-cluster -n efk -p '{"spec":{"template":{"metadata":{"annotations":{"timestamp": '\"$(date +'%s')\"' }}}}}'
+kubectl rollout status deployment/es-cluster -n efk

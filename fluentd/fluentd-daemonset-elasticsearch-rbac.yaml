@@ -6,7 +6,7 @@ metadata:
   namespace: efk
 
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: fluentd
@@ -25,7 +25,7 @@ rules:
 
 ---
 kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: fluentd
 roleRef:
@@ -67,7 +67,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: fluentd
-        image: fluent/fluentd-kubernetes-daemonset:v1.7.4-debian-elasticsearch7-1.0
+        image: fluent/fluentd-kubernetes-daemonset:v1-debian-elasticsearch-amd64
         env:
           - name:  FLUENT_ELASTICSEARCH_HOST
             valueFrom:
