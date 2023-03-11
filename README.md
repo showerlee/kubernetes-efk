@@ -99,7 +99,7 @@ In the current state:
 
 ## Debug
 
-### Current Shards is exceeding the max size
+### Current Shards are exceeding the max size
 
 As time goes by, elastic would face `cluster.max_shards_per_node` squeezing issue if no more larger shard value is defined since its default value is `1000`.
 
