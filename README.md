@@ -96,3 +96,23 @@ In the current state:
   ```
   kubectl logs -n efk [statefulset/es-cluster | ds/fluentd | deployment/kibana] -f
   ```
+
+## Debug
+
+### Current Shards is exceeding the max size
+
+As time goes by, elastic would face `cluster.max_shards_per_node` squeezing issue if no more larger shard value is defined since its default value is `1000`.
+
+It would cause kibana could not receive latest logging message.
+
+Solution:
+
+- Set `cluster.max_shards_per_node` a large number in elasticsearch.yml, i.e `cluster.max_shards_per_node: 10000`
+
+- Check existing elastic indices in CLI
+    ```
+    kubectl exec -it -n efk es-cluster-68886645c5-kt8pn -- bash
+    $ curl -u elastic:xxxxxxx  localhost:9200/_cat/indices
+    ```
+
+- Cleanup obsolete shards mannually or using the elastic indices cleanup tool [curator](https://github.com/elastic/curator)

@@ -19,3 +19,5 @@ data:
     # xpack.security.transport.ssl.verification_mode: certificate
     # xpack.security.transport.ssl.keystore.path: elastic-certificates.p12
     # xpack.security.transport.ssl.truststore.path: elastic-certificates.p12
+    # Add max shards size
+    cluster.max_shards_per_node: 10000
