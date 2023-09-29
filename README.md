@@ -115,4 +115,8 @@ Solution:
     $ curl -u elastic:xxxxxxx  localhost:9200/_cat/indices
     ```
 
-- Cleanup obsolete shards mannually or using the elastic indices cleanup tool [curator](https://github.com/elastic/curator)
+- Cleanup obsolete or unassigned shards
+
+    ```
+    curl -XGET -u elastic:xxxxxx http://localhost:9200/_cat/shards | grep UNASSIGNED |awk {'print $1'} | xargs -i curl -XDELETE -u elastic:xxxxxx "http://localhost:9200/{}"
+    ```
