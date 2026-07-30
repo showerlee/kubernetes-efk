@@ -55,6 +55,7 @@ spec:
             value: "-Xms512m -Xmx1024m"
       initContainers:
       - name: fix-permissions
+        imagePullPolicy: IfNotPresent
         image: daocloud.io/busybox
         command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
         securityContext:

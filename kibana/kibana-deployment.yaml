@@ -30,6 +30,7 @@ spec:
                       - efk
       containers:
       - name: kibana
+        imagePullPolicy: IfNotPresent
         image: docker.elastic.co/kibana/kibana:8.5.2
         resources:
           limits:
